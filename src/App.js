@@ -1,27 +1,36 @@
 import React from "react";
-import { BrowserRouter, Switch, Route, Link } from "react-router-dom";
+import { BrowserRouter, Switch, Route } from "react-router-dom";
+import "styles/App.css";
 
 // Views
-import Test from "./views/test";
-import Home from "./views/home";
+import Home from "views/Home";
+import Neighborhood from "views/Neighborhood";
+import Breweries from "views/Breweries";
 
 // App Navigation
-import NavDrawer from "./components/navigation/NavDrawer";
+import NavDrawer from "components/navigation/NavDrawer";
 
 // Ant Design Imports
-import { Layout, Menu, Breadcrumb } from "antd";
+import { Layout } from "antd";
+import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
 
 import "antd/dist/antd.css";
-const { Header, Content, Footer, Sider } = Layout;
+const { Header, Content, Sider } = Layout;
 
 class App extends React.Component {
   state = {
-    collapsed: false,
+    collapsed: true,
   };
 
   onCollapse = (collapsed) => {
     console.log(collapsed);
     this.setState({ collapsed });
+  };
+
+  toggle = () => {
+    this.setState({
+      collapsed: !this.state.collapsed,
+    });
   };
 
   render() {
@@ -31,23 +40,34 @@ class App extends React.Component {
       <div className="App">
         <BrowserRouter>
           <Layout style={{ minHeight: "100vh" }}>
-            <Sider
-              collapsible
-              collapsed={collapsed}
-              onCollapse={this.onCollapse}
-            >
+            <Sider collapsed={collapsed} collapsedWidth="0">
               <NavDrawer />
             </Sider>
-            <Content>
-              <Switch>
-                <Route exact path="/">
-                  <Home />
-                </Route>
-                <Route path="/test">
-                  <Test />
-                </Route>
-              </Switch>
-            </Content>
+            <Layout className="site-layout">
+              <Header className="app-header" style={{ padding: 0 }}>
+                {React.createElement(
+                  this.state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
+                  {
+                    className: "app-header__toggle",
+                    onClick: this.toggle,
+                  }
+                )}
+              </Header>
+
+              <Content>
+                <Switch>
+                  <Route exact path="/">
+                    <Home />
+                  </Route>
+                  <Route path="/neighborhood">
+                    <Neighborhood />
+                  </Route>
+                  <Route path="/breweries">
+                    <Breweries />
+                  </Route>
+                </Switch>
+              </Content>
+            </Layout>
           </Layout>
         </BrowserRouter>
       </div>
