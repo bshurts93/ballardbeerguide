@@ -2,7 +2,6 @@ import http from "utils/http";
 import queryStringBuilder from "utils/queryStringBuilder";
 const baseURL = "https://api.untappd.com/v4";
 let queryParams = {
-  q: "",
   client_id: process.env.REACT_APP_CLIENT_ID,
   client_secret: process.env.REACT_APP_CLIENT_SECRET,
 };
@@ -23,6 +22,16 @@ const untappdRepository = {
     queryParams.q = breweryName;
     const queryString = queryStringBuilder(queryParams);
     const url = `${baseURL}/search/brewery${queryString}`;
+    const options = {
+      method: "get",
+      url: url,
+    };
+
+    return await http(options);
+  },
+  getBreweryById: async (id) => {
+    const queryString = queryStringBuilder(queryParams);
+    const url = `${baseURL}/brewery/info/${id}${queryString}`;
     const options = {
       method: "get",
       url: url,
