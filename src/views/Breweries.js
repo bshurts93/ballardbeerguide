@@ -35,7 +35,8 @@ class Breweries extends React.Component {
     //   this.setState({ untappdData: breweryResults });
     //   console.log(this.state.untappdData);
     // });
-    await this.setState([{ untappdData: breweryData.placeholderBrewery }]);
+    await this.setState({ untappdData: breweryData.placeholderBreweries });
+    console.log(this.state);
   }
 
   componentDidMount() {
