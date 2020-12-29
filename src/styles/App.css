@@ -38,4 +38,19 @@
   font-size: 20px;
 }
 
-/* NEIGHBORHOOD PAGE */
+/* BREWERIES PAGE */
+.brewery-expand__title {
+  padding-left: 15px;
+}
+
+.expand-button__more {
+  color: red;
+}
+
+/* ABOUT PAGE */
+
+.about-title {
+  font-family: "Poppins", sans-serif;
+  font-size: 60px;
+  line-height: 1.2;
+}

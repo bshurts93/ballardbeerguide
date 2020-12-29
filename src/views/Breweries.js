@@ -1,26 +1,19 @@
 import React from "react";
 import untappdRepository from "api/untappd";
 import breweryData from "constants/breweryData";
-import { Avatar, Input, Row, Col, Card } from "antd";
-const { Search } = Input;
-const { Meta } = Card;
+import { Link } from "react-router-dom";
+import { Avatar, Button, Collapse, Row, Col, Skeleton } from "antd";
+
+const { Panel } = Collapse;
 
 class Breweries extends React.Component {
   state = {
     untappdData: [],
   };
 
-  async searchBeers(beer) {
-    const result = await untappdRepository.searchBeers(beer);
-    console.log(result.data.response);
-  }
-
-  async searchBreweries(brewery) {
-    const result = await untappdRepository.searchBreweries(brewery);
-    console.log(result.data.response);
-  }
-
   async getBallardBreweries() {
+    //   TODO: remove comments to use API
+
     // let promises = [];
     // breweryData.untappdIds.forEach((brewery) => {
     //   const promise = untappdRepository.getBreweryById(brewery.id);
@@ -35,7 +28,11 @@ class Breweries extends React.Component {
     //   this.setState({ untappdData: breweryResults });
     //   console.log(this.state.untappdData);
     // });
-    await this.setState([{ untappdData: breweryData.placeholderBrewery }]);
+
+    setTimeout(() => {
+      this.setState({ untappdData: breweryData.placeholderBreweries });
+      console.log(this.state);
+    }, 1000);
   }
 
   componentDidMount() {
@@ -43,36 +40,54 @@ class Breweries extends React.Component {
   }
 
   render() {
+    let breweryPanels;
+    if (this.state.untappdData.length) {
+      breweryPanels = this.state.untappdData.map((brewery) => {
+        return (
+          <Panel
+            header={
+              <Row className="brewery-expand__header">
+                <Col>
+                  <Avatar shape="square" src={brewery.brewery_label} />
+                </Col>
+                <Col>
+                  <h1 className="brewery-expand__title">
+                    {brewery.brewery_name}
+                  </h1>
+                </Col>
+              </Row>
+            }
+            key={brewery.brewery_id}
+          >
+            <Row style={{ paddingBottom: 20 }}>
+              {brewery.brewery_description}
+            </Row>
+            <Row>
+              <Link to={`/${brewery.brewery_id}/${brewery.brewery_slug}`}>
+                <Button block type="primary">
+                  Check it out
+                </Button>
+              </Link>
+            </Row>
+          </Panel>
+        );
+      });
+    } else {
+      breweryPanels = Array.apply(null, { length: 10 }).map((x) => {
+        return (
+          <Panel
+            showArrow={false}
+            header={<Skeleton active avatar paragraph={{ rows: 0 }} />}
+          ></Panel>
+        );
+      });
+    }
+
     return (
       <div className="breweries">
-        <Search placeholder="Search Beers" onSearch={this.searchBeers} />
-        <Search
-          placeholder="Search Breweries"
-          onSearch={this.searchBreweries}
-        />
-
-        <Row gutter={16}>
-          {this.state.untappdData.map((brewery) => {
-            console.log(brewery);
-            return (
-              <Col span={24}>
-                <Card bordered={true}>
-                  <Meta
-                    avatar={
-                      <Avatar
-                        src={brewery.brewery_label}
-                        shape="square"
-                        size={64}
-                      />
-                    }
-                    title={brewery.brewery_name}
-                    description={brewery.brewery_description}
-                  />
-                </Card>
-              </Col>
-            );
-          })}
-        </Row>
+        <Collapse bordered={false} accordion>
+          {breweryPanels}
+        </Collapse>
       </div>
     );
   }
