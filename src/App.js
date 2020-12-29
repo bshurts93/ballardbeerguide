@@ -6,6 +6,7 @@ import "styles/App.css";
 import Home from "views/Home";
 import Neighborhood from "views/Neighborhood";
 import Breweries from "views/Breweries";
+import About from "views/About";
 
 // App Navigation
 import NavDrawer from "components/navigation/NavDrawer";
@@ -65,6 +66,8 @@ class App extends React.Component {
                   <Route path="/breweries">
                     <Breweries />
                   </Route>
+                  {/* <Route path="/:id/:breweryName" children={<About />}></Route> */}
+                  <Route path="/:id/:breweryName" component={About} />
                 </Switch>
               </Content>
             </Layout>
