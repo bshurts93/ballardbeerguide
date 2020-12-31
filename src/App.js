@@ -16,7 +16,7 @@ import { Layout } from "antd";
 import { MenuOutlined } from "@ant-design/icons";
 
 import "antd/dist/antd.css";
-const { Header, Content, Sider } = Layout;
+const { Header, Content } = Layout;
 
 class App extends React.Component {
   state = {
@@ -64,7 +64,6 @@ class App extends React.Component {
                 <Route path="/breweries">
                   <Breweries />
                 </Route>
-                {/* <Route path="/:id/:breweryName" children={<About />}></Route> */}
                 <Route path="/:id/:breweryName" component={About} />
               </Switch>
             </Content>

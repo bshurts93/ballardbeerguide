@@ -1,14 +1,8 @@
-import React, { useState } from "react";
-import { Drawer, Menu, Button } from "antd";
-import { MenuOutlined, PieChartOutlined } from "@ant-design/icons";
+import { Drawer, Menu } from "antd";
+import { PieChartOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
 
 function NavDrawer(props) {
-  const [visible, setVisible] = useState(false);
-  const showDrawer = () => {
-    setVisible(true);
-  };
-
   return (
     <Drawer
       title="Basic Drawer"
