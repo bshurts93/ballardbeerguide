@@ -13,64 +13,60 @@ import NavDrawer from "components/navigation/NavDrawer";
 
 // Ant Design Imports
 import { Layout } from "antd";
-import { MenuUnfoldOutlined, MenuFoldOutlined } from "@ant-design/icons";
+import { MenuOutlined } from "@ant-design/icons";
 
 import "antd/dist/antd.css";
-const { Header, Content, Sider } = Layout;
+const { Header, Content } = Layout;
 
 class App extends React.Component {
   state = {
     collapsed: true,
+    drawerOpen: false,
   };
 
-  onCollapse = (collapsed) => {
-    console.log(collapsed);
-    this.setState({ collapsed });
-  };
+  toggleDrawer = () => {
+    console.log("toggle from header");
 
-  toggle = () => {
     this.setState({
-      collapsed: !this.state.collapsed,
+      drawerOpen: !this.state.drawerOpen,
     });
+    console.log(this.state.drawerOpen);
+  };
+
+  test = () => {
+    this.setState({ drawerOpen: true });
+    console.log(this.state.drawerOpen);
   };
 
   render() {
-    const { collapsed } = this.state;
-
     return (
       <div className="App">
         <BrowserRouter>
-          <Layout style={{ minHeight: "100vh" }}>
-            <Sider collapsed={collapsed} collapsedWidth="0">
-              <NavDrawer />
-            </Sider>
-            <Layout className="site-layout">
-              <Header className="app-header" style={{ padding: 0 }}>
-                {React.createElement(
-                  this.state.collapsed ? MenuUnfoldOutlined : MenuFoldOutlined,
-                  {
-                    className: "app-header__toggle",
-                    onClick: this.toggle,
-                  }
-                )}
-              </Header>
-
-              <Content>
-                <Switch>
-                  <Route exact path="/">
-                    <Home />
-                  </Route>
-                  <Route path="/neighborhood">
-                    <Neighborhood />
-                  </Route>
-                  <Route path="/breweries">
-                    <Breweries />
-                  </Route>
-                  {/* <Route path="/:id/:breweryName" children={<About />}></Route> */}
-                  <Route path="/:id/:breweryName" component={About} />
-                </Switch>
-              </Content>
-            </Layout>
+          <NavDrawer
+            collapseDrawer={this.toggleDrawer}
+            collapsed={this.state.drawerOpen}
+          />
+          <Layout className="site-layout">
+            <Header style={{ padding: 0 }}>
+              <MenuOutlined
+                onClick={this.toggleDrawer}
+                style={{ paddingLeft: 20, color: "#fff" }}
+              />
+            </Header>
+            <Content>
+              <Switch>
+                <Route exact path="/">
+                  <Home />
+                </Route>
+                <Route path="/neighborhood">
+                  <Neighborhood />
+                </Route>
+                <Route path="/breweries">
+                  <Breweries />
+                </Route>
+                <Route path="/:id/:breweryName" component={About} />
+              </Switch>
+            </Content>
           </Layout>
         </BrowserRouter>
       </div>

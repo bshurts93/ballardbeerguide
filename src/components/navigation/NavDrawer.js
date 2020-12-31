@@ -1,18 +1,17 @@
-import React from "react";
+import { Drawer, Menu } from "antd";
+import { PieChartOutlined } from "@ant-design/icons";
 import { Link } from "react-router-dom";
-import { Menu } from "antd";
-import {
-  DesktopOutlined,
-  PieChartOutlined,
-  FileOutlined,
-  TeamOutlined,
-  UserOutlined,
-} from "@ant-design/icons";
-const { SubMenu } = Menu;
 
-class NavDrawer extends React.Component {
-  render() {
-    return (
+function NavDrawer(props) {
+  return (
+    <Drawer
+      title="Basic Drawer"
+      placement="left"
+      closable
+      onClose={props.collapseDrawer}
+      visible={props.collapsed}
+      bodyStyle={{ padding: 0 }}
+    >
       <Menu defaultSelectedKeys={["1"]} mode="inline">
         <Menu.Item key="1" icon={<PieChartOutlined />}>
           <Link to="/">Home</Link>
@@ -24,8 +23,8 @@ class NavDrawer extends React.Component {
           <Link to="/breweries">Breweries</Link>
         </Menu.Item>
       </Menu>
-    );
-  }
+    </Drawer>
+  );
 }
 
 export default NavDrawer;
